@@ -609,5 +609,35 @@ class BasketballCommands(commands.Cog):
         
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
+@app_commands.command(name="archétypes", description="Liste des archétypes disponibles")
+async def show_archetypes(self, interaction: discord.Interaction):
+    """Afficher la liste des archétypes et leurs bonus"""
+    embed = discord.Embed(
+        title="🏀 Archétypes Disponibles",
+        description="Voici les rôles de joueur que vous pouvez choisir selon vos rôles Discord :",
+        color=BOT_CONFIG["embed_color"]
+    )
+
+    for name, data in ARCHETYPES.items():
+        bonuses = "\n".join([f"{get_stat_emoji(stat)} {stat} : **+{value}**" for stat, value in data["bonuses"].items() if value != 0])
+        embed.add_field(
+            name=f"🔹 {name}",
+            value=f"{data['description']}\n{bonuses}",
+            inline=False
+        )
+
+    await interaction.response.send_message(embed=embed)
+
+@app_commands.command(name="stats", description="Afficher les statistiques disponibles")
+async def show_stats(self, interaction: discord.Interaction):
+    """Afficher toutes les stats disponibles"""
+    stat_lines = [f"{get_stat_emoji(stat)} **{stat}**" for stat in STAT_NAMES]
+    embed = discord.Embed(
+        title="📊 Statistiques Disponibles",
+        description="\n".join(stat_lines),
+        color=BOT_CONFIG["embed_color"]
+    )
+    await interaction.response.send_message(embed=embed)
+
 async def setup(bot):
     await bot.add_cog(BasketballCommands(bot))
