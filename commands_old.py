@@ -17,7 +17,7 @@ async def setup_commands(bot):
     
     # Load slash command modules
     try:
-        await bot.load_extension('slash_commands')
+        await bot.load_extension('basic_commands')
         logger.info("Loaded slash commands")
     except Exception as e:
         logger.error(f"Failed to load slash commands: {e}")
