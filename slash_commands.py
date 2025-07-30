@@ -628,6 +628,12 @@ async def show_archetypes(self, interaction: discord.Interaction):
 
     await interaction.response.send_message(embed=embed)
 
+@bot.tree.command(name="sync", description="Syncer manuellement les commandes")
+@commands.is_owner()
+async def sync_commands(interaction: discord.Interaction):
+    synced = await bot.tree.sync()
+    await interaction.response.send_message(f"✅ {len(synced)} commandes synchronisées.")
+
 @app_commands.command(name="stats", description="Afficher les statistiques disponibles")
 async def show_stats(self, interaction: discord.Interaction):
     """Afficher toutes les stats disponibles"""
